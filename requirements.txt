@@ -1,0 +1,7 @@
+ultralytics
+opencv-python
+tqdm
+numpy
+pandas
+rfdetr
+inference
