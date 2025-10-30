@@ -172,6 +172,7 @@ def read_reference_video(model, video_path, save_video_path, person_class_idx):
     out = cv2.VideoWriter(save_video_path, fourcc, fps, (w,h))
 
     frame_idx = 0
+    total_drawn = 0
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) if cap.get(cv2.CAP_PROP_FRAME_COUNT) > 0 else None
     pbar = tqdm(total=total_frames, desc="Video inference", unit="frame")
     while True:
@@ -194,13 +195,15 @@ def read_reference_video(model, video_path, save_video_path, person_class_idx):
                     cv2.rectangle(frame, (xyxy[0], xyxy[1]), (xyxy[2], xyxy[3]), (0,255,0), 2)
                     cv2.putText(frame, f"person {score:.2f}", (xyxy[0], max(0, xyxy[1]-6)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1)
+                    total_drawn += 1
+                    
         out.write(frame)
         frame_idx += 1
         pbar.update(1)
     pbar.close()
     cap.release()
     out.release()
-    print(f"Видео с боксами сохранено в {save_video_path}")
+    print(f"Видео с детекцией сохранено в {save_video_path}. Кадров обработано: {frame_idx}, отрисовано bbox: {total_drawn}")
 
 
 
@@ -268,4 +271,4 @@ def read_reference_video_rfdetr(model, video_path, save_video_path, person_class
     pbar.close()
     cap.release()
     out.release()
-    print(f"Видео с боксами сохранено в {save_video_path}. Кадров обработано: {frame_idx}, отрисовано bbox: {total_drawn}")
+    print(f"Видео с детекцие сохранено в {save_video_path}. Кадров обработано: {frame_idx}, отрисовано bbox: {total_drawn}")

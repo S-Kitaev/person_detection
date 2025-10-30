@@ -4,4 +4,3 @@ tqdm
 numpy
 pandas
 rfdetr
-inference
